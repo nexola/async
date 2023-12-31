@@ -147,12 +147,36 @@ const paises = [
 ];
 let contador = 0;
 
-getCountryData('xdxdxd');
+// btn.addEventListener('click', function (e) {
+//   getCountryData(paises[contador]);
+//   contador++;
+//   if (contador > 7) {
+//     contador = 0;
+//   }
+// });
 
-btn.addEventListener('click', function (e) {
-  getCountryData(paises[contador]);
-  contador++;
-  if (contador > 7) {
-    contador = 0;
-  }
-});
+// Code challenge
+const whereAmI = function (lat, lng) {
+  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Localização não encontrada! ${response.status}`);
+      console.log(response);
+
+      return response.json();
+    })
+    .then(dados => {
+      if (!dados.ok)
+        throw new Error(`Requisição lenta, localização não carregada`);
+
+      console.log(`Você está em ${dados.state}, ${dados.country}`);
+
+      getCountryData(dados.country);
+    })
+    .catch(err => console.log(`Algo deu errado! ${err}`));
+};
+
+// whereAmI(-23.5360726, -46.3833998);
+// whereAmI(52.508, 13.381);
+// whereAmI(19.037, 72.873);
+whereAmI(-33.933, 18.474);
