@@ -147,13 +147,13 @@ const paises = [
 ];
 let contador = 0;
 
-// btn.addEventListener('click', function (e) {
-//   getCountryData(paises[contador]);
-//   contador++;
-//   if (contador > 7) {
-//     contador = 0;
-//   }
-// });
+btn.addEventListener('click', function (e) {
+  getCountryData(paises[contador]);
+  contador++;
+  if (contador > 7) {
+    contador = 0;
+  }
+});
 
 // Code challenge
 const whereAmI = function (lat, lng) {
@@ -179,4 +179,22 @@ const whereAmI = function (lat, lng) {
 // whereAmI(-23.5360726, -46.3833998);
 // whereAmI(52.508, 13.381);
 // whereAmI(19.037, 72.873);
-whereAmI(-33.933, 18.474);
+// whereAmI(-33.933, 18.474);
+
+//////////////////////////////////////////
+// Microtasks e callback queue
+console.log('Test start');
+
+setTimeout(() => {
+  console.log('0 sec timer');
+}, 0);
+
+Promise.resolve('Resolved promise 1').then(res => console.log(res));
+
+Promise.resolve('Resolved promise 2').then(res => {
+  for (let index = 0; index < 10; index++) {
+    console.log(res);
+  }
+});
+
+console.log('Test end');
