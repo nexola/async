@@ -214,9 +214,9 @@ btn.addEventListener('click', function (e) {
 // lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
 
 // Promosifying setTimeout
-// const wait = seconds => {
-//   return new Promise(resolve => setTimeout(resolve, seconds * 1000));
-// };
+const wait = seconds => {
+  return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+};
 
 // wait(1)
 //   .then(() => {
@@ -274,3 +274,43 @@ getPosition().then(res => console.log(res));
 // };
 
 // btn.addEventListener('click', whereAmI);
+
+// Code challenge
+
+// const imgContainer = document.querySelector('.images');
+// let img;
+
+// const createImg = function (imgPath) {
+//   return new Promise((resolve, reject) => {
+//     const imgEl = document.createElement('img');
+//     imgEl.src = imgPath;
+
+//     imgEl.addEventListener('load', () => {
+//       imgContainer.append(imgEl);
+
+//       resolve(imgEl);
+//     });
+
+//     imgEl.addEventListener('error', () =>
+//       reject(new Error(`Imagem não encontrada`))
+//     );
+//   });
+// };
+
+// createImg('./img/img-1.jpg')
+//   .then(res => {
+//     img = res;
+//     console.log(img);
+
+//     return wait(2);
+//   })
+//   .then(() => {
+//     img.style.display = 'none';
+//     return createImg('./img/img-2.jpg');
+//   })
+//   .then(res2 => {
+//     img = res2;
+//     return wait(2);
+//   })
+//   .then(() => (img.style.display = 'none'))
+//   .catch(err => console.error(err));
