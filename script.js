@@ -156,25 +156,25 @@ btn.addEventListener('click', function (e) {
 });
 
 // Code challenge
-const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
-    .then(response => {
-      if (!response.ok)
-        throw new Error(`Localização não encontrada! ${response.status}`);
-      console.log(response);
+// const whereAmI = function (lat, lng) {
+//   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+//     .then(response => {
+//       if (!response.ok)
+//         throw new Error(`Localização não encontrada! ${response.status}`);
+//       console.log(response);
 
-      return response.json();
-    })
-    .then(dados => {
-      if (!dados.ok)
-        throw new Error(`Requisição lenta, localização não carregada`);
+//       return response.json();
+//     })
+//     .then(dados => {
+//       if (!dados.ok)
+//         throw new Error(`Requisição lenta, localização não carregada`);
 
-      console.log(`Você está em ${dados.state}, ${dados.country}`);
+//       console.log(`Você está em ${dados.state}, ${dados.country}`);
 
-      getCountryData(dados.country);
-    })
-    .catch(err => console.log(`Algo deu errado! ${err}`));
-};
+//       getCountryData(dados.country);
+//     })
+//     .catch(err => console.log(`Algo deu errado! ${err}`));
+// };
 
 // whereAmI(-23.5360726, -46.3833998);
 // whereAmI(52.508, 13.381);
@@ -183,18 +183,94 @@ const whereAmI = function (lat, lng) {
 
 //////////////////////////////////////////
 // Microtasks e callback queue
-console.log('Test start');
+// console.log('Test start');
 
-setTimeout(() => {
-  console.log('0 sec timer');
-}, 0);
+// setTimeout(() => {
+//   console.log('0 sec timer');
+// }, 0);
 
-Promise.resolve('Resolved promise 1').then(res => console.log(res));
+// Promise.resolve('Resolved promise 1').then(res => console.log(res));
 
-Promise.resolve('Resolved promise 2').then(res => {
-  for (let index = 0; index < 10; index++) {
-    console.log(res);
-  }
-});
+// Promise.resolve('Resolved promise 2').then(res => {
+//   for (let index = 0; index < 10; index++) {
+//     console.log(res);
+//   }
+// });
 
-console.log('Test end');
+// console.log('Test end');
+
+///////////////////////////////////////////
+
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log('Lotter draw is happening 🔮');
+
+//   setTimeout(() => {
+//     Math.random() >= 0.5
+//       ? resolve('You WIN 🤑')
+//       : reject(new Error('You LOSE 😢'));
+//   }, 2000);
+// });
+
+// lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
+
+// Promosifying setTimeout
+// const wait = seconds => {
+//   return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+// };
+
+// wait(1)
+//   .then(() => {
+//     console.log('Esperei por 1 segundo');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('Esperei por 2 segundos');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('Esperei por 3 segundos');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('Esperei por 4 segundos');
+//   });
+
+// Promise.resolve('abc').then(x => console.log(x));
+// Promise.reject('abc').catch(x => console.console.error()(x));
+
+/////////////////////////////////////////
+
+const getPosition = () => {
+  return new Promise((resolve, reject) =>
+    navigator.geolocation.getCurrentPosition(resolve, reject)
+  );
+};
+
+getPosition().then(res => console.log(res));
+
+// const whereAmI = function () {
+//   getPosition()
+//     .then(pos => {
+//       const { latitude: lat, longitude: lng } = pos.coords;
+
+//       return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+//     })
+//     .then(response => {
+//       if (!response.ok)
+//         throw new Error(`Localização não encontrada! ${response.status}`);
+//       console.log(response);
+
+//       return response.json();
+//     })
+//     .then(dados => {
+//       if (!dados.ok)
+//         throw new Error(`Requisição lenta, localização não carregada`);
+
+//       console.log(`Você está em ${dados.state}, ${dados.country}`);
+
+//       getCountryData(dados.country);
+//     })
+//     .catch(err => console.log(`Algo deu errado! ${err}`));
+// };
+
+// btn.addEventListener('click', whereAmI);
