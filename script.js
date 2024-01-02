@@ -24,6 +24,7 @@ const renderCountry = function (dados, className = '') {
   </article>
 `;
 
+  countriesContainer.style.opacity = 1;
   countriesContainer.insertAdjacentHTML('beforeend', html);
 };
 
@@ -240,14 +241,6 @@ const wait = seconds => {
 
 /////////////////////////////////////////
 
-const getPosition = () => {
-  return new Promise((resolve, reject) =>
-    navigator.geolocation.getCurrentPosition(resolve, reject)
-  );
-};
-
-getPosition().then(res => console.log(res));
-
 // const whereAmI = function () {
 //   getPosition()
 //     .then(pos => {
@@ -314,3 +307,30 @@ getPosition().then(res => console.log(res));
 //   })
 //   .then(() => (img.style.display = 'none'))
 //   .catch(err => console.error(err));
+
+const getPosition = () => {
+  return new Promise((resolve, reject) =>
+    navigator.geolocation.getCurrentPosition(resolve, reject)
+  );
+};
+
+// Async / Await
+const whereAmI = async function () {
+  // Geolocation
+  const pos = await getPosition();
+  const { latitude: lat, longitude: lng } = pos.coords;
+  // Reverse geocoding
+  const resGeo = await fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`);
+  const geoJson = await resGeo.json();
+
+  // Country data
+  const response = await fetch(
+    `https://restcountries.com/v3.1/name/${geoJson.country}`
+  );
+  const [json] = await response.json();
+  console.log(json);
+  renderCountry(json);
+};
+
+console.log('Primeiro');
+whereAmI();
