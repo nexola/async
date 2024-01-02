@@ -316,21 +316,30 @@ const getPosition = () => {
 
 // Async / Await
 const whereAmI = async function () {
-  // Geolocation
-  const pos = await getPosition();
-  const { latitude: lat, longitude: lng } = pos.coords;
-  // Reverse geocoding
-  const resGeo = await fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`);
-  const geoJson = await resGeo.json();
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+    // Reverse geocoding
+    const resGeo = await fetch(`https://geocode.xyz/${lat}, ${lng}?geoit=json`);
 
-  // Country data
-  const response = await fetch(
-    `https://restcountries.com/v3.1/name/${geoJson.country}`
-  );
-  const [json] = await response.json();
-  console.log(json);
-  renderCountry(json);
+    if (!resGeo.ok) throw new Error('Problema com a geolocalização');
+
+    const geoJson = await resGeo.json();
+
+    // Country data
+    const resCountry = await fetch(
+      `https://restcountries.com/v3.1/name/${geoJson.country}`
+    );
+
+    if (!resCountry.ok) throw new Error('Problema tentando encontrar o país');
+
+    const [countryJson] = await resCountry.json();
+    renderCountry(countryJson);
+  } catch (err) {
+    console.error(err);
+    renderError(`😢 ${err.message}`);
+  }
 };
 
-console.log('Primeiro');
 whereAmI();
